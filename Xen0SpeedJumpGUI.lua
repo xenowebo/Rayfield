@@ -1,69 +1,37 @@
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/gen2"))()
+local Xen0UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/ui-01/01/01/01.lua"))()
 
-local window = Rayfield:CreateWindow({
-    name = "Xeno GUI",
-    subtitle = "Speed Gravity Jump",
-    sidebarLayout = true,
-    theme = {
-        TabColor = Color3.fromRGB(15, 15, 15), -- Black text
-        TabBackground = ColorSequence.new(
-            Color3.fromRGB(238, 238, 238), -- Light grey
-            Color3.fromRGB(225, 225, 225)  -- Slightly darker grey
-        ),
-        TabStroke = ColorSequence.new(
-            Color3.fromRGB(205, 205, 205), -- Soft grey border
-            Color3.fromRGB(185, 185, 185)  -- Subtle darker edge
-        ),
-    },
+local Window = Xen0UI:MakeWindow({
+    Name = "Xen0 UI",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "Xen0Test"
 })
 
-local tab = window:CreateTab({ name = "Main", icon = 93364949241311 })
-
-tab:CreateInput({
-    name = "Gravity",
-    numeric = true,
-    value = "192.2",
-    placeholder = "Enter a number",
-    callback = function(text)
-        workspace.Gravity = text
-    end,
+local Tab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
-tab:CreateInput({
-    name = "Jump",
-    numeric = true,
-    value = "50",
-    placeholder = "Enter a number",
-    callback = function(text)
-        local player = game.Players.LocalPlayer
-        if player and player.Character then
-            local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
-            if humanoid then
-        humanoid.UseJumpPower = true
-        humanoid.JumpPower = text
-        end
-        end
-    end,
+local Section = Tab:AddSection({
+    Name = "Scripts"
 })
 
-local slider3 = tab:CreateSlider({
-    name = "Speed",
-    range = { 1, 750 },
-    increment = 1,
-    value = 16,
-    suffix = "studs per sec",
-    callback = function(value)
-        
-    end,
+Tab:AddTextbox({
+	Name = "Gravity",
+	Default = "192.2",
+	TextDisappear = true,
+	Callback = function(Value)
+		workspace.Gravity = Value
+	end	  
 })
 
-tab:CreateInput({
-    name = "Jump",
-    numeric = true,
-    value = "50",
-    placeholder = "Enter a number",
-    callback = function(text)
-        local speed = text
+Tab:AddTextbox({
+	Name = "Speed",
+	Default = "16",
+	TextDisappear = true,
+	Callback = function(Value)
+        local speed = Value
 
         task.spawn(function()
             while task.wait() do
@@ -75,13 +43,28 @@ tab:CreateInput({
 
         end
         end
-    end,
 })
 
-tab:CreateButton({
-    name = "Reset",
-    callback = function()
-        --Gravity Reset
+Tab:AddTextbox({
+	Name = "Jump Power",
+	Default = "50",
+	TextDisappear = true,
+	Callback = function(Value)
+		local player = game.Players.LocalPlayer
+        if player and player.Character then
+            local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+        humanoid.UseJumpPower = true
+        humanoid.JumpPower = Value
+        end
+        end
+	end	  
+})
+
+Tab:AddButton({
+	Name = "Reset",
+	Callback = function()
+      		--Gravity Reset
     	workspace.Gravity = 192.2
         
         --Jump Reset
@@ -105,11 +88,12 @@ tab:CreateButton({
 
         end
         end
-    end
+  	end    
 })
 
-window:Notify({
-    title = "Xen0 GUI",
-    content = "by @blixxARSENAL",
-    duration = 5,
+Xen0UI:MakeNotification({
+	Name = "Xen0 UI",
+	Content = "made by blixxARSENAL",
+	Image = "rbxthumb://type=Asset&id=8517942534&w=150&h=150",
+	Time = 5
 })
